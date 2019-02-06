@@ -1,0 +1,24 @@
+--cpu Cortex-M3
+"prs\startup_stm32f103xb.o"
+"prs\main.o"
+"prs\stm32f1xx_it.o"
+"prs\stm32f1xx_hal_msp.o"
+"prs\system_stm32f1xx.o"
+"prs\sensors.o"
+"prs\stm32f1xx_hal_gpio_ex.o"
+"prs\stm32f1xx_hal_tim.o"
+"prs\stm32f1xx_hal_tim_ex.o"
+"prs\stm32f1xx_hal_uart.o"
+"prs\stm32f1xx_hal.o"
+"prs\stm32f1xx_hal_rcc.o"
+"prs\stm32f1xx_hal_rcc_ex.o"
+"prs\stm32f1xx_hal_gpio.o"
+"prs\stm32f1xx_hal_dma.o"
+"prs\stm32f1xx_hal_cortex.o"
+"prs\stm32f1xx_hal_pwr.o"
+"prs\stm32f1xx_hal_flash.o"
+"prs\stm32f1xx_hal_flash_ex.o"
+--library_type=microlib --strict --scatter "prs\prs.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "prs.map" -o prs\prs.axf
