@@ -153,42 +153,37 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\prs\../Src/main.c\stage_of_process</ItemText>
+          <ItemText>command_from_host_now</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>command_from_host_now</ItemText>
+          <ItemText>command_from_host</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>command_from_host</ItemText>
+          <ItemText>firstSensorTempPrs</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>firstSensorTempPrs</ItemText>
+          <ItemText>secondSensorTempPrs</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>secondSensorTempPrs</ItemText>
+          <ItemText>temperature2</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>temperature1</ItemText>
+          <ItemText>temperature2</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>temperature2</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>temperature2</ItemText>
+          <ItemText>hui</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

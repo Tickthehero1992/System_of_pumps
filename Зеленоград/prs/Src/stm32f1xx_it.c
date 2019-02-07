@@ -34,6 +34,7 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
+#include "main.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -232,7 +233,16 @@ void USART3_IRQHandler(void)
   /* USER CODE END USART3_IRQn 0 */
   HAL_UART_IRQHandler(&huart3);
   /* USER CODE BEGIN USART3_IRQn 1 */
+	
+	if(ch=='W')
+	{
+		HAL_UART_Receive_IT(&huart3, (uint8_t*)(&command_from_host_now ), sizeof(command_from_host_now));
+		Parser();
+		ch=0;
+		
+	}
 
+	HAL_UART_Receive_IT(&huart3, (uint8_t*)(&ch), 1);	
   /* USER CODE END USART3_IRQn 1 */
 }
 
@@ -240,6 +250,7 @@ void USART3_IRQHandler(void)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+	
   /* Prevent unused argument(s) compilation warning */
   UNUSED(huart);
 }

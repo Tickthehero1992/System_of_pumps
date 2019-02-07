@@ -170,7 +170,7 @@ void test_pins(void)
 /* USER CODE BEGIN 0 */
 uint16_t temp2, temp1;
 uint16_t pres1, pres2;
-
+uint8_t ch;
 /* USER CODE END 0 */
 
 /**
@@ -208,6 +208,7 @@ int main(void)
 	Init_klapans();
 	zero_down_system();
 	HAL_TIM_Base_Start_IT(&htim1);
+	
    
 #ifdef _1_SLAVE_PRESENT
 	
@@ -217,6 +218,7 @@ int main(void)
 	HAL_Delay(500);
 	
 #endif
+HAL_UART_Receive_IT(&huart3, (uint8_t*)(&ch), 1);
 //HAL_UART_Transmit(&huart3,"HELLO", 5,1); 
   /* USER CODE END 2 */
 
@@ -416,7 +418,7 @@ presuare2 = (double)pres2*3/10000;
 //snprintf(pres_ch,5,"%d",pres1);
 
 		sprintf(message_to_esp, "$p1 = %d Pa, p2 = %d Pa, t = %f C*", UpPres1, UpPres2, temperature2);
-	HAL_UART_Transmit(&huart3,(uint8_t*)(&message_to_esp),strlen(message_to_esp)+1,1000);
+    HAL_UART_Transmit(&huart3,(uint8_t*)(&message_to_esp),strlen(message_to_esp)+1,1000);
 	
 		
 }
@@ -425,9 +427,10 @@ void err_handler()
 {
 	
 }
-
+uint8_t hui=0;
 void take_klapan() //write klapans state by number
 {
+	
 if(Klapan[0])
 	{
 //	HAL_UART_Transmit(&huart3, Klapan, 2,1); 
@@ -436,6 +439,7 @@ switch(Klapan[0])
 	case 0x04:
 		if(Klapan[1]==0x01)
 		{
+			
 			HAL_GPIO_WritePin(dev_4_gp,dev_4,GPIO_PIN_SET);
 			HAL_GPIO_WritePin(dev_4_1_gp,dev_4_1,GPIO_PIN_RESET);
 		}
@@ -584,15 +588,12 @@ void all_zeroes()
 				zero_params(secondSensorTempPrs);
 
 }
+
 void Parser() // this is command parser 
 {
 	uint8_t start;
-	if((HAL_UART_Receive(&huart3, &start, 1,1)==HAL_OK))
-	{
-	 if(start=='W')
-	 {
-		if(HAL_UART_Receive(&huart3, (uint8_t*)(&command_from_host_now), sizeof(command_from_host_now),1)==HAL_OK) // should put here 10 byte
-		{
+	
+	 
 			if(command_from_host_now.start==':')
 			{
 				if((command_from_host_now.powering==0x01)&&(stage_of_process==0)) // if process didn't start when we can write command to system
@@ -626,11 +627,8 @@ void Parser() // this is command parser
 			//HAL_UART_Transmit(&huart3, (uint8_t*)(&command_from_host_now),sizeof(command_from_host_now),1); 
 		}
 	  
-	 }
-	}
+	 
 	
-
-}
 void extrme_stop()
 {
 	if(UpPres2>(three_atm-200))
@@ -787,8 +785,9 @@ void process_pump()
 
 
 int h;
-void Transmitting()
+void Transmitting(uint8_t k)
 {
+		if(k==1){k++;}
 		HAL_GPIO_WritePin(RS_485_TRANSMIT_GPIO_Port, RS_485_TRANSMIT_Pin, GPIO_PIN_SET);
 		if (HAL_UART_Transmit(&huart1, (uint8_t*)(&getTempPrsCommandensor1), sizeof(getTempPrsCommandensor1), 30) != HAL_OK) err_handler();
 		HAL_GPIO_WritePin(RS_485_TRANSMIT_GPIO_Port, RS_485_TRANSMIT_Pin, GPIO_PIN_RESET);
@@ -796,7 +795,8 @@ void Transmitting()
 		
 		temp1 =SENSOR_1_TEMPERATURE_PTS ;
 		pres1=SENSOR_1_PRESSURE_PTS;  
-
+	if(k==2)
+		{k=1;}
 		HAL_Delay(20);	
 		HAL_GPIO_WritePin(RS_485_TRANSMIT_GPIO_Port, RS_485_TRANSMIT_Pin, GPIO_PIN_SET);
 		if (HAL_UART_Transmit(&huart1, (uint8_t*)(&getTempPrsCommandSensor2), sizeof(getTempPrsCommandSensor2), 30) != HAL_OK) err_handler();
@@ -845,19 +845,17 @@ void pumps(uint32_t Time)
 
 
 }
-
+uint8_t chet=1;
 void Timing_main()
 {
-	
-	
 uint32_t Time_now = HAL_GetTick();
-	if(stage_of_process)
-	{
-		
-	}
-	if((Time_now - Time_speak)>3) // if now time is longer than 400 ms than last speaking - ask with sensor
+	
+
+	
+	
+  if((Time_now - Time_speak)>3) // if now time is longer than 400 ms than last speaking - ask with sensor
 			{
-				Transmitting();
+	Transmitting(chet);			
 			}
 	Parser();
   process_pump();

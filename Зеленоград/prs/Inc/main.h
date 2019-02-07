@@ -180,9 +180,10 @@
 /* USER CODE BEGIN Private defines */
 
 void pumps(uint32_t Time);
-void Transmitting(void);
+void Transmitting(uint8_t k);
 void Timing_main(void);
 void zero_down_system(void);
+void Parser(void);
 extern double temperature1, temperature2, presuare1, presuare2;
 typedef struct __attribute__((__packed__))
 {
@@ -206,7 +207,9 @@ typedef struct __attribute__((__packed__))
 	uint8_t CRC_low;
 	uint8_t CRC_high;
 } MODBUS_Std_command;
-
+extern command_message command_from_host;
+extern command_message command_from_host_now;
+extern uint8_t ch;
 typedef struct __attribute__((__packed__))
 {
 	uint8_t address;
